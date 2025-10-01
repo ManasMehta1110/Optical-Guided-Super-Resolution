@@ -1,0 +1,8 @@
+torch
+torchvision
+numpy
+scikit-image
+matplotlib
+rasterio
+streamlit
+Pillow
