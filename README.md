@@ -5,7 +5,7 @@
 ![PyTorch](https://img.shields.io/badge/PyTorch-2.x-red)  
 ![Streamlit](https://img.shields.io/badge/Streamlit-Deployed-success)  
 ![Git LFS](https://img.shields.io/badge/Git%20LFS-enabled-yellow)  
-[![Live Demo](https://img.shields.io/badge/Streamlit-Live%20Demo-orange)](https://your-streamlit-app-link.com)  
+[![Live Demo](https://img.shields.io/badge/Streamlit-Live%20Demo-orange)]([https://your-streamlit-app-link.com](https://optical-guided-super-resolution-br4vim97x4bunscqcmj98a.streamlit.app/))  
 
 ---
 
