@@ -1,0 +1,19 @@
+# Ignore raw and processed data except the best model
+data_raw/
+data_processed/*
+!data_processed/best_model.pth
+
+# Ignore large binary files
+*.tif
+*.tar.gz
+*.zip
+
+# Ignore everything in data_processed except best_model.pth
+data_processed/*
+!data_processed/best_model.pth
+
+# Python junk
+__pycache__/
+*.pyc
+.DS_Store
+
