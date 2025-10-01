@@ -15,8 +15,8 @@ DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 @st.cache_resource
 def load_model():
     model = DualEDSR().to(DEVICE)
-    checkpoint = torch.load(MODEL_PATH, map_location=DEVICE, weights_only=True)
-    model.load_state_dict(checkpoint["model"])
+    state_dict = torch.load(MODEL_PATH, map_location=DEVICE, weights_only=False)
+    model.load_state_dict(state_dict)
     model.eval()
     return model
 
