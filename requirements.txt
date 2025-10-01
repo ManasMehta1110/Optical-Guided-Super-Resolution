@@ -6,3 +6,5 @@ matplotlib
 rasterio
 streamlit
 Pillow
+tqdm
+earthaccess
