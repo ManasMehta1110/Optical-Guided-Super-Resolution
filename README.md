@@ -85,8 +85,8 @@ The model follows a **Dual-Stream EDSR** workflow:
 
 ### Clone the Repository
 ```bash
-git clone https://github.com/YourUsername/InfraNova.git
-cd InfraNova
+git clone https://github.com/ManasMehta1110/Optical-Guided-Super-Resolution
+cd Optical-Guided-Super-Resolution
 ```
 
 ### Install Dependencies
