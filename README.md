@@ -44,10 +44,6 @@ The model follows a **Dual-Stream EDSR** workflow:
 5. **Output**  
    - Produces a **10m resolution** super-resolved thermal map.
 
-<p align="center">
-  <img src="assets/dual_stream_pipeline.png" width="700">
-  <br><em>Figure: Dual-Stream Optical-Thermal EDSR pipeline.</em>
-</p>
 
 ---
 
