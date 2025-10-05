@@ -1,110 +1,192 @@
-# Optical-Guided Super-Resolution for Thermal Imagery  
+<h1 align="center">🌡️ InfraNova: Dual-Stream EDSR for Thermal Super-Resolution</h1>
 
-![Build Status](https://img.shields.io/badge/build-passing-brightgreen)  
-![Python](https://img.shields.io/badge/python-3.10%2B-blue)  
-![PyTorch](https://img.shields.io/badge/PyTorch-2.x-red)  
-![Streamlit](https://img.shields.io/badge/Streamlit-Deployed-success)  
-![Git LFS](https://img.shields.io/badge/Git%20LFS-enabled-yellow)  
-[![Live Demo](https://img.shields.io/badge/Streamlit-Live%20Demo-orange)]([https://your-streamlit-app-link.com](https://optical-guided-super-resolution-br4vim97x4bunscqcmj98a.streamlit.app/))  
+<p align="center">
+  <i>Thermally Accurate. Spatially Sharp.</i><br>
+  <b>Supercharging Thermal Vision with Deep Learning.</b>
+</p>
 
 ---
 
-## 🔍 Problem Statement  
-Thermal infrared (TIR) remote sensing is crucial for **urban heat island analysis, wildfire monitoring, and precision agriculture**. However:  
-- **Thermal sensors**: Low resolution (30m).  
-- **Optical sensors**: High resolution (10m) but no thermal information.  
-
-This mismatch reduces the effectiveness of TIR applications.  
-
-The challenge: **Enhance coarse thermal images using high-resolution optical data while preserving thermal fidelity.**
+<p align="center">
+  <a href="https://optical-guided-super-resolution-br4vim97x4bunscqcmj98a.streamlit.app/" target="_blank">
+    <img src="https://static.streamlit.io/badges/streamlit_badge_black_white.svg" alt="Open in Streamlit" height="45"/>
+  </a>
+</p>
 
 ---
 
-## 🚀 Proposed Solution  
-We developed a **fusion-based super-resolution pipeline** that leverages **deep learning (DualEDSR model)** to enhance low-resolution thermal images using spatial details from optical images.  
+## 🚀 Project Overview
 
-Key steps in our pipeline:  
-1. **Data Preparation**: Extract optical + thermal bands from satellite imagery.  
-2. **Resampling**: Align optical (10m) and thermal (30m) grids.  
-3. **Model Training**: Train a DualEDSR super-resolution model with fusion of modalities.  
-4. **Evaluation**: Metrics – **PSNR, SSIM, RMSE**.  
-5. **Deployment**: An interactive **Streamlit web app** where users upload optical & thermal `.tif` files and get a **super-resolved thermal map**.  
+**InfraNova** is a deep learning pipeline designed to fuse **Optical** and **Thermal** imagery for generating **high-resolution thermal maps**.  
+Using a **Dual-Stream EDSR architecture**, it preserves **spatial sharpness** from optical data while maintaining **temperature accuracy** from thermal data.
+
+> 🎯 **Goal:** Convert coarse (30m) thermal imagery into fine-grained (10m) super-resolved thermal maps aligned with optical data.
 
 ---
 
-## 🛠 Tech Stack  
-- **Python 3.10+**  
-- **PyTorch** – model training & inference  
-- **Torchvision** – pretrained backbones  
-- **Rasterio** – geospatial image handling  
-- **NumPy, Matplotlib** – preprocessing & visualization  
-- **Streamlit** – deployment & interactive UI  
-- **Git LFS** – manage large model files  
+## 🧩 Model Architecture
+
+The model follows a **Dual-Stream EDSR** workflow:
+
+1. **Feature Extraction**  
+   - Separate convolutional encoders extract low-level features from both **Optical** and **Thermal** streams.
+
+2. **Deep Residual Learning**  
+   - Multiple **Residual Blocks (Conv → ReLU → Conv + Skip)** capture spatial and contextual details.
+
+3. **Feature Alignment & Fusion**  
+   - **ConvFuse** layer merges both modalities.
+   - **Channel Attention** ensures adaptive weighting between thermal and optical features.
+
+4. **Reconstruction & Upscaling**  
+   - **EDSR-based decoder** reconstructs a high-resolution thermal image, preserving fine structures.
+
+5. **Output**  
+   - Produces a **10m resolution** super-resolved thermal map.
+
+<p align="center">
+  <img src="assets/dual_stream_pipeline.png" width="700">
+  <br><em>Figure: Dual-Stream Optical-Thermal EDSR pipeline.</em>
+</p>
 
 ---
 
-## 📊 Results  
-- **Validation after 3 epochs:**  
-  - **PSNR**: 42.4 dB  
-  - **SSIM**: 0.9269  
-  - **RMSE**: 0.0159  
+## 🧠 Key Components
 
-The model produces **sharper, high-resolution thermal outputs** while preserving **true temperature patterns**.  
-
----
-
-## 🌐 Deployment  
-We deployed a **Streamlit Cloud app** for real-world testing.  
-
-**Workflow:**  
-1. Upload **thermal (30m)** and **optical (10m)** `.tif` images.  
-2. Model enhances the thermal image to **10m resolution**.  
-3. View/download super-resolved thermal maps.  
+| Component | Description |
+|------------|--------------|
+| **Optical Encoder** | Extracts texture and spatial edges |
+| **Thermal Encoder** | Encodes accurate temperature gradients |
+| **Feature Alignment** | Aligns feature channels using ConvFuse and Channel Attention |
+| **EDSR Decoder** | Performs residual learning and reconstruction |
+| **Upscaling** | Increases spatial resolution to 10m |
 
 ---
 
-## 📂 Repository Structure  
+## 📊 Performance Metrics
 
-```
-Optical-Guided-Super-Resolution/
-│── data_raw/              # raw satellite data (ignored in repo)
-│── data_processed/        # processed files + best_model.pth
-│   └── best_model.pth     # trained model checkpoint
-│── main2.ipynb            # training pipeline (model, dataset, training loop)
-│── model.py               # DualEDSR model definition
-│── streamlit_app.py       # Streamlit deployment script
-│── requirements.txt       # dependencies
-│── README.md              # project documentation
-```
+| Metric | Value |
+|:-------|:------|
+| **PSNR** | 42.4 dB |
+| **SSIM** | 0.9269 |
+| **RMSE** | 0.0159 |
 
 ---
 
-## 📥 Installation & Usage  
+## 🧰 Tech Stack
 
-### 1️⃣ Clone Repository  
+| Domain | Libraries / Tools |
+|:--------|:------------------|
+| **Deep Learning** | PyTorch, TorchVision |
+| **Computer Vision** | Pillow, OpenCV |
+| **Data Handling** | Rasterio, NumPy |
+| **Web App** | Streamlit |
+| **Datasets** | NASA Landsat-8, Hugging Face |
+
+---
+
+## 💻 Getting Started
+
+### Clone the Repository
 ```bash
-git clone https://github.com/ManasMehta1110/Optical-Guided-Super-Resolution.git
-cd Optical-Guided-Super-Resolution
+git clone https://github.com/YourUsername/InfraNova.git
+cd InfraNova
 ```
 
-### 2️⃣ Install Dependencies  
+### Install Dependencies
 ```bash
 pip install -r requirements.txt
 ```
 
-### 3️⃣ Run Streamlit App  
+### Run the Streamlit App
 ```bash
-streamlit run streamlit_app.py
+streamlit run app.py
+```
+
+Or open the hosted demo:
+
+<p align="center">
+  <a href="https://optical-guided-super-resolution-br4vim97x4bunscqcmj98a.streamlit.app/" target="_blank">
+    <img src="https://static.streamlit.io/badges/streamlit_badge_black_white.svg" alt="Launch Demo" height="45"/>
+  </a>
+</p>
+
+---
+
+## 🗂️ Repository Structure
+
+```
+InfraNova/
+├── app.py                     # Streamlit demo app
+├── models/
+│   ├── dual_edsr.py           # Dual-stream EDSR model
+│   ├── resblock.py            # Residual block implementation
+├── data_raw/                  # Raw .tif input files (Optical, Thermal)
+├── data_processed/            # Super-resolved results / trained model
+├── utils/                     # Helper scripts for visualization & metrics
+├── requirements.txt
+└── README.md
 ```
 
 ---
 
-## 📚 Research & References  
-- Landsat-8/9 Operational Land Imager (OLI) & Thermal Infrared Sensor (TIRS) – NASA/USGS.  
-- TorchGeo: https://huggingface.co/datasets/torchgeo/ssl4eo_l_benchmark  
-- EDSR: Enhanced Deep Super-Resolution Network.  
-- Smart India Hackathon Problem Statement (Thermal Super-Resolution).  
+## 🧪 Usage Instructions
+
+1. Upload your **Optical** and **Thermal** `.tif` files in the Streamlit interface.
+2. The model will:
+   - Extract features from both inputs  
+   - Align and fuse using attention  
+   - Perform EDSR-based upscaling  
+3. Outputs:
+   - Super-Resolved Thermal Image  
+   - Comparison metrics (PSNR, SSIM, RMSE)  
 
 ---
 
-👉 This project demonstrates how **AI + remote sensing** can make thermal imaging more powerful and practical for **urban planning, agriculture, and disaster management**.  
+## 🖼️ Example Results
+
+| Optical Input | Thermal Input | Super-Resolved Output |
+|:--------------:|:--------------:|:----------------------:|
+| ![optical](assets/optical.png) | ![thermal](assets/thermal.png) | ![sr](assets/super_resolved.png) |
+
+---
+
+## 📁 Dataset Sources
+
+- **NASA Landsat-8** – Thermal Infrared Sensor (TIRS)  
+- **Hugging Face Datasets** – Curated paired optical and thermal tiles  
+
+---
+
+## 🧮 Physics-Informed Loss (Optional Extension)
+
+The model can integrate a **physics-informed constraint** ensuring temperature conservation:
+
+\[
+\mathcal{L}_{total} = \mathcal{L}_{pixel} + \lambda_1 \mathcal{L}_{perceptual} + \lambda_2 \mathcal{L}_{physics}
+\]
+
+Where:
+- \( \mathcal{L}_{physics} \) enforces radiometric consistency.  
+- \( \lambda_1, \lambda_2 \) are tunable coefficients.
+
+---
+
+## 🧑‍💻 Contributors
+
+- **Manas Mehta** – Model Development & Streamlit Integration  
+- **[Add teammates here]** – Data Handling, Visualization, and Documentation  
+
+---
+
+## 🏁 Acknowledgements
+
+This project is part of **Smart India Hackathon 2025**.  
+Grateful to open-source communities and satellite data providers (NASA, ESA) for making this research possible.
+
+---
+
+<p align="center">
+  <i>“Supercharging Thermal Vision with Deep Learning.”</i><br>
+  <b>InfraNova © 2025</b>
+</p>
