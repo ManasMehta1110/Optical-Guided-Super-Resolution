@@ -142,10 +142,7 @@ InfraNova/
 
 | Optical Input | Thermal Input | Super-Resolved Output |
 |:--------------:|:--------------:|:----------------------:|
-| ![optical](<img width="612" height="627" alt="optical" src="https://github.com/user-attachments/assets/92a19ce6-5493-49c2-8ef6-aba7c7bb5d6a" />
-) | ![thermal](<img width="625" height="623" alt="Thermal" src="https://github.com/user-attachments/assets/71f953f2-1f96-4796-8c7b-6aa97bedbd5e" />
-) | ![sr](![Uploading resolved.png…]()
-) |
+| ![optical](<img width="612" height="627" alt="optical" src="https://github.com/user-attachments/assets/92a19ce6-5493-49c2-8ef6-aba7c7bb5d6a" />) | ![thermal](<img width="625" height="623" alt="Thermal" src="https://github.com/user-attachments/assets/71f953f2-1f96-4796-8c7b-6aa97bedbd5e" />) | ![sr](![Uploading resolved.png…]()) |
 
 ---
 
