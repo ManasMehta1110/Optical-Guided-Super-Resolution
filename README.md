@@ -114,12 +114,11 @@ Or open the hosted demo:
 ```
 InfraNova/
 ├── app.py                     # Streamlit demo app
+├── main2.ipynb
 ├── models/
 │   ├── dual_edsr.py           # Dual-stream EDSR model
-│   ├── resblock.py            # Residual block implementation
 ├── data_raw/                  # Raw .tif input files (Optical, Thermal)
 ├── data_processed/            # Super-resolved results / trained model
-├── utils/                     # Helper scripts for visualization & metrics
 ├── requirements.txt
 └── README.md
 ```
@@ -154,33 +153,7 @@ InfraNova/
 
 ---
 
-## 🧮 Physics-Informed Loss (Optional Extension)
 
-The model can integrate a **physics-informed constraint** ensuring temperature conservation:
-
-\[
-\mathcal{L}_{total} = \mathcal{L}_{pixel} + \lambda_1 \mathcal{L}_{perceptual} + \lambda_2 \mathcal{L}_{physics}
-\]
-
-Where:
-- \( \mathcal{L}_{physics} \) enforces radiometric consistency.  
-- \( \lambda_1, \lambda_2 \) are tunable coefficients.
-
----
-
-## 🧑‍💻 Contributors
-
-- **Manas Mehta** – Model Development & Streamlit Integration  
-- **[Add teammates here]** – Data Handling, Visualization, and Documentation  
-
----
-
-## 🏁 Acknowledgements
-
-This project is part of **Smart India Hackathon 2025**.  
-Grateful to open-source communities and satellite data providers (NASA, ESA) for making this research possible.
-
----
 
 <p align="center">
   <i>“Supercharging Thermal Vision with Deep Learning.”</i><br>
