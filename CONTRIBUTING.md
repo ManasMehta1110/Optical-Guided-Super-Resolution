@@ -33,6 +33,6 @@ This project follows the [Contributor Covenant Code of Conduct](https://www.cont
 
 ## Questions?
 
-Ask in an issue or reach out via [X/Twitter @yourhandle](https://x.com/yourhandle) or email.
+Ask in an issue or reach out via email.
 
 Happy contributing! 🚀
