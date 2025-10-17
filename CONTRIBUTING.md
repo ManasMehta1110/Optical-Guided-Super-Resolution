@@ -4,7 +4,7 @@ Thank you for considering contributing to this project! Your help in enhancing o
 
 ## Code of Conduct
 
-This project follows the [Contributor Covenant Code of Conduct](https://www.contributor-covenant.org/version/2/0/code_of_conduct/). By participating, you agree to uphold it. Please report unacceptable behavior to [your-email@example.com](mailto:your-email@example.com).
+This project follows the [Contributor Covenant Code of Conduct](https://www.contributor-covenant.org/version/2/0/code_of_conduct/). By participating, you agree to uphold it. Please report unacceptable behavior to [manasmehta1123@example.com](mailto:your-email@example.com).
 
 ## Getting Started
 
