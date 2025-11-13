@@ -1,161 +1,182 @@
-<h1 align="center">🌡️ InfraNova: Dual-Stream EDSR for Thermal Super-Resolution</h1>
+# InfraNova: Dual-Stream EDSR for Optical-Guided Thermal Super-Resolution
 
-<p align="center">
-  <i>Thermally Accurate. Spatially Sharp.</i><br>
-  <b>Supercharging Thermal Vision with Deep Learning.</b>
-</p>
+InfraNova is a complete deep-learning pipeline for reconstructing **high-resolution thermal imagery** by leveraging **optical guidance**.  
+This repository provides the implementation, training flow, inference tools, and a detailed conceptual walkthrough for understanding multi-modal thermal super-resolution using PyTorch.
 
 ---
 
-<p align="center">
-  <a href="https://optical-guided-super-resolution-br4vim97x4bunscqcmj98a.streamlit.app/" target="_blank">
-    <img src="https://static.streamlit.io/badges/streamlit_badge_black_white.svg" alt="Open in Streamlit" height="45"/>
-  </a>
-</p>
+## Contents
+- [Objective](#objective)
+- [Concepts](#concepts)
+- [Overview](#overview)
+- [Architecture](#architecture)
+- [Implementation](#implementation)
+- [Training](#training)
+- [Evaluation](#evaluation)
+- [Inference](#inference)
+- [Datasets](#datasets)
+- [Examples](#examples)
+- [FAQs](#faqs)
 
 ---
 
-## 🚀 Project Overview
+## Objective
+**To generate a 10m-resolution thermal image from a 30m thermal input**  
+using high-resolution optical imagery as a structural guide.
 
-**InfraNova** is a deep learning pipeline designed to fuse **Optical** and **Thermal** imagery for generating **high-resolution thermal maps**.  
-Using a **Dual-Stream EDSR architecture**, it preserves **spatial sharpness** from optical data while maintaining **temperature accuracy** from thermal data.
-
-> 🎯 **Goal:** Convert coarse (30m) thermal imagery into fine-grained (10m) super-resolved thermal maps aligned with optical data.
-
----
-
-## 🧩 Model Architecture
-
-The model follows a **Dual-Stream EDSR** workflow:
-
-1. **Feature Extraction**  
-   - Separate convolutional encoders extract low-level features from both **Optical** and **Thermal** streams.
-
-2. **Deep Residual Learning**  
-   - Multiple **Residual Blocks (Conv → ReLU → Conv + Skip)** capture spatial and contextual details.
-
-3. **Feature Alignment & Fusion**  
-   - **ConvFuse** layer merges both modalities.
-   - **Channel Attention** ensures adaptive weighting between thermal and optical features.
-
-4. **Reconstruction & Upscaling**  
-   - **EDSR-based decoder** reconstructs a high-resolution thermal image, preserving fine structures.
-
-5. **Output**  
-   - Produces a **10m resolution** super-resolved thermal map.
-
+Traditional thermal sensors (e.g., Landsat-8 TIRS) capture reliable radiometric information but at low spatial resolution. Optical sensors, however, provide rich spatial detail.  
+InfraNova fuses these two modalities to create **thermally consistent, spatially sharp** outputs.
 
 ---
 
-## 🧠 Key Components
+## Concepts
+### Thermal Super-Resolution
+Upsampling coarse thermal data to finer resolutions while maintaining radiometric accuracy.
 
-| Component | Description |
-|------------|--------------|
-| **Optical Encoder** | Extracts texture and spatial edges |
-| **Thermal Encoder** | Encodes accurate temperature gradients |
-| **Feature Alignment** | Aligns feature channels using ConvFuse and Channel Attention |
-| **EDSR Decoder** | Performs residual learning and reconstruction |
-| **Upscaling** | Increases spatial resolution to 10m |
+### Optical–Thermal Fusion
+Optical images contain spatial edges and textures needed to upscale thermal signals.
 
----
+### Dual-Stream CNNs
+Separate encoders preserve domain-specific features before fusion.
 
-## 📊 Performance Metrics
+### EDSR Architecture
+High-performance super-resolution model using deep residual blocks.
 
-| Metric | Value |
-|:-------|:------|
-| **PSNR** | 42.4 dB |
-| **SSIM** | 0.9269 |
-| **RMSE** | 0.0159 |
+### Channel Attention
+Learns adaptive importance weighting across channels.
 
----
-
-## 🧰 Tech Stack
-
-| Domain | Libraries / Tools |
-|:--------|:------------------|
-| **Deep Learning** | PyTorch, TorchVision |
-| **Computer Vision** | Pillow, OpenCV |
-| **Data Handling** | Rasterio, NumPy |
-| **Web App** | Streamlit |
-| **Datasets** | NASA Landsat-8, Hugging Face |
+### Radiometric Preservation
+Ensures temperature gradients are not overwritten by visual artifacts.
 
 ---
 
-## 💻 Getting Started
+## Overview
+InfraNova workflow:
 
-### Clone the Repository
-```bash
-git clone https://github.com/ManasMehta1110/Optical-Guided-Super-Resolution
-cd Optical-Guided-Super-Resolution
+1. Extract thermal & optical features.
+2. Fuse using ConvFuse + Channel Attention.
+3. Reconstruct through EDSR.
+4. Output 10m thermal super-resolved imagery.
+
+---
+
+## Architecture
+
+```
+Thermal (30m) ──► Thermal Encoder ─┐
+                                   │──► ConvFuse + Channel Attention ─► EDSR Decoder ─► Thermal SR (10m)
+Optical (10m) ───► Optical Encoder ┘
 ```
 
-### Install Dependencies
-```bash
-pip install -r requirements.txt
-```
+### Optical & Thermal Encoders
+Learn spatial vs radiometric features independently.
 
-### Run the Streamlit App
-```bash
-streamlit run app.py
-```
+### Fusion Module
+ConvFuse + Channel Attention ensures balanced multi-modal integration.
 
-Or open the hosted demo:
+### EDSR Decoder
+Residual learning for high-quality reconstruction.
 
-<p align="center">
-  <a href="https://optical-guided-super-resolution-br4vim97x4bunscqcmj98a.streamlit.app/" target="_blank">
-    <img src="https://static.streamlit.io/badges/streamlit_badge_black_white.svg" alt="Launch Demo" height="45"/>
-  </a>
-</p>
+### Upscaling
+PixelShuffle or learned transposed convolution.
 
 ---
 
-## 🗂️ Repository Structure
+## Implementation
 
 ```
 InfraNova/
-├── app.py                     # Streamlit demo app
-├── main2.ipynb
+├── app.py
 ├── models/
-│   ├── dual_edsr.py           # Dual-stream EDSR model
-├── data_raw/                  # Raw .tif input files (Optical, Thermal)
-├── data_processed/            # Super-resolved results / trained model
+│   └── dual_edsr.py
+├── data_raw/
+├── data_processed/
+├── main2.ipynb
 ├── requirements.txt
 └── README.md
 ```
 
----
-
-## 🧪 Usage Instructions
-
-1. Upload your **Optical** and **Thermal** `.tif` files in the Streamlit interface.
-2. The model will:
-   - Extract features from both inputs  
-   - Align and fuse using attention  
-   - Perform EDSR-based upscaling  
-3. Outputs:
-   - Super-Resolved Thermal Image  
-   - Comparison metrics (PSNR, SSIM, RMSE)  
+### Key Modules
+- `dual_edsr.py`: model architecture  
+- `app.py`: Streamlit interface  
+- `main2.ipynb`: training and testing  
 
 ---
 
-## 🖼️ Example Results
+## Training
 
-| Optical Input | Thermal Input | Super-Resolved Output |
-|:--------------:|:--------------:|:----------------------:|
-| <img width="612" height="627" alt="optical" src="https://github.com/user-attachments/assets/92a19ce6-5493-49c2-8ef6-aba7c7bb5d6a" /> | <img width="625" height="623" alt="Thermal" src="https://github.com/user-attachments/assets/71f953f2-1f96-4796-8c7b-6aa97bedbd5e" /> | <img width="591" height="622" alt="resolved" src="https://github.com/user-attachments/assets/1b08625c-e4f7-4c22-be4b-cfcb81c1cbd4" />|
+Two-phase training:
+
+### Phase 1 — Decoder-only
+- Encoders frozen  
+- Stabilizes reconstruction  
+
+### Phase 2 — Full Fine-Tuning
+- Small LR  
+- Aligns modalities  
+
+### Hyperparameters
+| Param | Value |
+|-------|--------|
+| LR | 1e-4 → 1e-5 |
+| Optimizer | Adam |
+| Loss | L1 + SSIM (+ optional edge loss) |
+| Epochs | 50–100 |
+| Batch Size | 8–16 |
 
 ---
 
-## 📁 Dataset Sources
+## Evaluation
 
-- **NASA Landsat-8** – Thermal Infrared Sensor (TIRS)  
-- **Hugging Face Datasets** – Curated paired optical and thermal tiles  
+| Metric | Score |
+|--------|--------|
+| PSNR | 42.4 dB |
+| SSIM | 0.9269 |
+| RMSE | 0.0159 |
 
 ---
 
+## Inference
 
+### Streamlit App
+```
+streamlit run app.py
+```
 
-<p align="center">
-  <i>“Supercharging Thermal Vision with Deep Learning.”</i><br>
-  <b>InfraNova © 2025</b>
-</p>
+### Programmatic Usage
+```python
+from models.dual_edsr import InfraNovaModel
+model = InfraNovaModel().load_from_checkpoint("model.pth")
+sr = model(thermal, optical)
+```
+
+---
+
+## Datasets
+- Landsat-8 TIRS (thermal)
+- Landsat-8 OLI (optical)
+- Hugging Face curated tiles
+
+---
+
+## Examples
+| Optical | Thermal | SR Output |
+|---------|----------|-----------|
+| image | image | image |
+
+---
+
+## FAQs
+
+### Why dual-stream?
+To preserve domain-specific features before fusion.
+
+### Does the model hallucinate?
+Loss functions ensure radiometric stability.
+
+### Can this work on Sentinel / ECOSTRESS / UAV data?
+Yes, with retraining.
+
+### Is real-time inference possible?
+Yes after conversion to ONNX or TorchScript.
+
