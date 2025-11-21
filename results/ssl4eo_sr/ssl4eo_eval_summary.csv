@@ -1,0 +1,4 @@
+metric,value
+psnr_mean_db,39.761492
+ssim_mean,0.617878
+rmse_mean,0.010278
