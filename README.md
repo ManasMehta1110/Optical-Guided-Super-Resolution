@@ -52,7 +52,6 @@ Ensures temperature gradients are not overwritten by visual artifacts.
 
 ## Overview
 InfraNova workflow:
-
 1. Extract thermal & optical features.
 2. Fuse using ConvFuse + Channel Attention.
 3. Reconstruct through EDSR.
