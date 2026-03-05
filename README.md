@@ -150,12 +150,10 @@ sr = model(thermal, optical)
 ```
 
 ---
-
 ## Datasets
 - Landsat-8 TIRS (thermal)
 - Landsat-8 OLI (optical)
 - Hugging Face curated tiles
-
 ---
 
 ## Examples
