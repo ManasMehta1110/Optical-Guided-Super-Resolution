@@ -5,7 +5,7 @@
   <img src="https://img.shields.io/badge/Streamlit-App-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white"/>
   <img src="https://img.shields.io/badge/Python-3.8+-3776AB?style=for-the-badge&logo=python&logoColor=white"/>
   <img src="https://img.shields.io/badge/License-MIT-green?style=for-the-badge"/>
-  <img src="https://img.shields.io/badge/SIH-2024%20Finalist-gold?style=for-the-badge"/>
+  <img src="https://img.shields.io/badge/SIH-2025%20Finalist-gold?style=for-the-badge"/>
 </p>
 
 <p align="center">
