@@ -198,4 +198,4 @@ This project is licensed under the MIT License — see [LICENSE](LICENSE) for de
 
 - [EDSR-PyTorch](https://github.com/sanghyun-son/EDSR-PyTorch) — original EDSR implementation
 - [earthaccess](https://earthaccess.readthedocs.io/) — NASA Earthdata API access
-- Smart India Hackathon 2024 — problem statement and domain guidance
+- Smart India Hackathon 2025 — problem statement and domain guidance
