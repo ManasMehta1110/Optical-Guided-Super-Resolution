@@ -202,8 +202,9 @@ section[data-testid="stSidebar"] { background: #080808 !important; border-right:
 #  CONSTANTS
 # ─────────────────────────────────────────────
 UPSCALE    = 2
+DATA_PROCESSED = "data_processed"
 MODELS_DIR = "models"
-BEST_PATH  = os.path.join(MODELS_DIR, "best_model.pth")
+BEST_PATH  = os.path.join(DATA_PROCESSED, "best_model.pth")
 DEVICE     = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("infranova")
