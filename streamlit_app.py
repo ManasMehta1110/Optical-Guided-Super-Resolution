@@ -203,7 +203,7 @@ section[data-testid="stSidebar"] { background: #080808 !important; border-right:
 # ─────────────────────────────────────────────
 UPSCALE    = 2
 MODELS_DIR = "models"
-BEST_PATH  = os.path.join(MODELS_DIR, "ssl4eo_best.pth")
+BEST_PATH  = os.path.join(MODELS_DIR, "best_model.pth")
 DEVICE     = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("infranova")
