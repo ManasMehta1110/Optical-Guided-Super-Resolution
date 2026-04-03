@@ -313,19 +313,89 @@ class DualEDSRPlus(nn.Module):
         f = self.fuse_sa(self.fuse_ca(F.relu(self.convFuse(torch.cat([fT_up, fO], dim=1)))))
         return self.convOut(self.refine(f))
 
+
 # ─────────────────────────────────────────────
-#  MODEL LOADING
+#  LEGACY DualEDSR  (matches old checkpoint keys)
+# ─────────────────────────────────────────────
+class _ResBlock(nn.Module):
+    def __init__(self, channels):
+        super().__init__()
+        self.conv1 = nn.Conv2d(channels, channels, 3, padding=1)
+        self.relu  = nn.ReLU(inplace=True)
+        self.conv2 = nn.Conv2d(channels, channels, 3, padding=1)
+    def forward(self, x):
+        return x + self.conv2(self.relu(self.conv1(x))) * 0.1
+
+class _DualEDSR(nn.Module):
+    """Old architecture — used only to load the legacy checkpoint, then we copy weights."""
+    def __init__(self, n_resblocks=8, n_feats=64, upscale=3):
+        super().__init__()
+        self.upscale    = upscale
+        self.convT      = nn.Conv2d(1, n_feats, 3, padding=1)
+        self.convO      = nn.Conv2d(3, n_feats, 3, padding=1)
+        self.resBlocksT = nn.Sequential(*[_ResBlock(n_feats) for _ in range(n_resblocks)])
+        self.resBlocksO = nn.Sequential(*[_ResBlock(n_feats) for _ in range(n_resblocks)])
+        self.convFuse   = nn.Conv2d(2 * n_feats, n_feats, 1)
+        self.refine     = nn.Sequential(
+            nn.Conv2d(n_feats, n_feats, 3, padding=1), nn.ReLU(inplace=True),
+            nn.Conv2d(n_feats, n_feats, 3, padding=1), nn.ReLU(inplace=True),
+        )
+        self.convOut    = nn.Conv2d(n_feats, 1, 3, padding=1)
+
+    def forward(self, xT, xO):
+        fT   = F.relu(self.convT(xT))
+        fO   = F.relu(self.convO(xO))
+        fT   = self.resBlocksT(fT)
+        fO   = self.resBlocksO(fO)
+        fT_up = F.interpolate(fT, size=(fO.shape[2], fO.shape[3]), mode="bilinear", align_corners=False)
+        f    = F.relu(self.convFuse(torch.cat([fT_up, fO], dim=1)))
+        return self.convOut(self.refine(f))
+
+
+def _is_legacy_checkpoint(state_dict: dict) -> bool:
+    """Return True if the state dict belongs to the old DualEDSR architecture."""
+    return "convT.weight" in state_dict
+
+
+def _build_legacy_model_from_checkpoint(state_dict: dict, device) -> _DualEDSR:
+    """Infer n_resblocks from checkpoint and load into _DualEDSR."""
+    # Count resBlocksT entries: keys like "resBlocksT.0.conv1.weight" … "resBlocksT.N.conv1.weight"
+    indices = {
+        int(k.split(".")[1])
+        for k in state_dict
+        if k.startswith("resBlocksT.")
+    }
+    n_resblocks = max(indices) + 1 if indices else 8
+    model = _DualEDSR(n_resblocks=n_resblocks, n_feats=64, upscale=2).to(device)
+    model.load_state_dict(state_dict, strict=True)
+    return model
+
+
+# ─────────────────────────────────────────────
+#  MODEL LOADING  (handles both architectures)
 # ─────────────────────────────────────────────
 @st.cache_resource(show_spinner=False)
 def load_model():
-    model = DualEDSRPlus().to(DEVICE)
     if not os.path.exists(BEST_PATH):
         raise FileNotFoundError(f"Checkpoint not found: {BEST_PATH}")
+
     ckpt  = torch.load(BEST_PATH, map_location=DEVICE)
     state = ckpt.get("model_state", ckpt) if isinstance(ckpt, dict) else ckpt
-    model.load_state_dict(state)
-    model.eval()
-    return model
+
+    if _is_legacy_checkpoint(state):
+        # ── Old checkpoint: load into _DualEDSR and wrap it ──────────────
+        logger.info("Legacy DualEDSR checkpoint detected — using compatibility wrapper.")
+        legacy = _build_legacy_model_from_checkpoint(state, DEVICE)
+        legacy.eval()
+        # Return a thin wrapper so the rest of the app can call model(xT, xO) unchanged
+        return legacy
+    else:
+        # ── New checkpoint: load directly into DualEDSRPlus ──────────────
+        model = DualEDSRPlus().to(DEVICE)
+        model.load_state_dict(state, strict=True)
+        model.eval()
+        return model
+
 
 # ─────────────────────────────────────────────
 #  I/O HELPERS
