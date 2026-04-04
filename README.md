@@ -192,15 +192,3 @@ MIT — see [LICENSE](LICENSE) for details.
 
 ---
 
-## Citation
-
-If you use InfraNova in your work, please cite:
-
-```bibtex
-@misc{mehta2024infranova,
-  title   = {InfraNova: Dual-Stream EDSR for Optical-Guided Thermal Super-Resolution},
-  author  = {Mehta, Manas},
-  year    = {2024},
-  url     = {https://github.com/ManasMehta1110/Optical-Guided-Super-Resolution}
-}
-```
